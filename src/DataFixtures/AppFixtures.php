@@ -6,9 +6,17 @@ use App\Entity\Adherent;
 use App\Entity\Livre;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use App\Entity\User;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+
+    public function __construct(
+    private UserPasswordHasherInterface $passwordHasher,
+) {
+}
+
     public function load(ObjectManager $manager): void
     {
         // --- Les livres 📚 ---
@@ -43,6 +51,15 @@ class AppFixtures extends Fixture
 
             $manager->persist($adherent);
         }
+
+        $admin = new User();
+        $admin->setEmail('admin@bibliotheque.fr');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setPassword(
+             $this->passwordHasher->hashPassword($admin, 'admin123')
+);
+
+$manager->persist($admin);
 
         $manager->flush();
     }

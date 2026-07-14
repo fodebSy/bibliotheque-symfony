@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    <h1>🛠️ Dashboard administrateur</h1>
+    <p>Connecté en tant que {{ app.user.userIdentifier }}</p>
+    <p><a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+{% endblock %}

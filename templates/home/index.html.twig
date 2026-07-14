@@ -39,4 +39,24 @@
     <input type="text" name="q" value="{{ recherche ?? '' }}" placeholder="Titre ou auteur...">
     <button type="submit">🔎 Rechercher</button>
 </form>
+
+    <h2>📖 Emprunts en cours</h2>
+
+<ul>
+    {% for emprunt in empruntsEnCours %}
+        <li>
+            <strong>{{ emprunt.livre.titre }}</strong>
+            emprunté par {{ emprunt.adherent.prenom }} {{ emprunt.adherent.nom }}
+            le {{ emprunt.dateEmprunt|date('d/m/Y') }}
+            (retour prévu : {{ emprunt.dateRetourPrevue|date('d/m/Y') }})
+
+            <form method="post" action="{{ path('app_emprunt_retour', {'id': emprunt.id}) }}" style="display: inline">
+                <button type="submit">↩️ Retourner</button>
+            </form>
+        </li>
+    {% else %}
+        <li>Aucun emprunt en cours.</li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

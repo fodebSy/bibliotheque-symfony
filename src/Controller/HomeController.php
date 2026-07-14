@@ -8,11 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\AdherentRepository;
+use App\Repository\EmpruntRepository;
 
 class HomeController extends AbstractController
 {
    #[Route('/', name: 'app_home')]
-public function index(LivreRepository $livreRepository, AdherentRepository $adherentRepository, Request $request): Response
+public function index(LivreRepository $livreRepository,
+    AdherentRepository $adherentRepository,
+    EmpruntRepository $empruntRepository,
+    Request $request): Response
 {
     $categorie = $request->query->get('categorie');
     $recherche = $request->query->get('q');
@@ -39,6 +43,8 @@ public function index(LivreRepository $livreRepository, AdherentRepository $adhe
         'categorieActive' => $categorie,
         'recherche' => $recherche,
         'adherents' => $adherentRepository->findAll(),
+        'empruntsEnCours' => $empruntRepository->findBy(['dateRetourEffective' => null])
     ]);
 }
+
 }

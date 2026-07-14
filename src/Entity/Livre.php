@@ -6,6 +6,7 @@ use App\Repository\LivreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre
@@ -16,18 +17,25 @@ class Livre
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre est obligatoire.')]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'L\'auteur est obligatoire.')]
     private ?string $auteur = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, unique: true)]
+    #[Assert\NotBlank(message: 'L\'ISBN est obligatoire.')]
+    #[Assert\Isbn(message: 'Ce n\'est pas un ISBN valide.')]
     private ?string $isbn = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'L\'année de publication est obligatoire.')]
+    #[Assert\Range(min: 1450, max: 2026, notInRangeMessage: 'L\'année doit être entre {{ min }} et {{ max }}.')]
     private ?int $anneePublication = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'La catégorie est obligatoire.')]
     private ?string $categorie = null;
 
     #[ORM\Column]

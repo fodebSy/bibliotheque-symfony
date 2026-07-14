@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Bibliothèque{% endblock %}
+
+{% block body %}
+    <h1>📚 Livres disponibles</h1>
+
+    <p>
+        <a href="{{ path('app_home') }}">Toutes</a>
+        {% for categorie in categories %}
+            | <a href="{{ path('app_home', {'categorie': categorie}) }}"
+                 {% if categorie == categorieActive %}style="font-weight: bold"{% endif %}>
+                {{ categorie }}
+            </a>
+        {% endfor %}
+    </p>
+
+    <ul>
+        {% for livre in livres %}
+            <li>
+    <strong>{{ livre.titre }}</strong> — {{ livre.auteur }}
+    ({{ livre.anneePublication }}) [{{ livre.categorie }}]
+
+    <form method="post" action="{{ path('app_emprunt_nouveau', {'id': livre.id}) }}" style="display: inline">
+        <select name="adherent_id">
+            {% for adherent in adherents %}
+                <option value="{{ adherent.id }}">{{ adherent.prenom }} {{ adherent.nom }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">📖 Emprunter</button>
+    </form>
+</li>
+        {% else %}
+            <li>Aucun livre disponible.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="get" action="{{ path('app_home') }}">
+    <input type="text" name="q" value="{{ recherche ?? '' }}" placeholder="Titre ou auteur...">
+    <button type="submit">🔎 Rechercher</button>
+</form>
+{% endblock %}

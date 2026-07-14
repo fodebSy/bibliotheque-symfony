@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique - {{ adherent.prenom }} {{ adherent.nom }}{% endblock %}
+
+{% block body %}
+    <h1>📜 Historique de {{ adherent.prenom }} {{ adherent.nom }}</h1>
+    <p><a href="{{ path('app_home') }}">← Retour à l'accueil</a></p>
+
+    <ul>
+        {% for emprunt in emprunts %}
+            <li>
+                <strong>{{ emprunt.livre.titre }}</strong>
+                — emprunté le {{ emprunt.dateEmprunt|date('d/m/Y') }}
+                {% if emprunt.dateRetourEffective %}
+                    — rendu le {{ emprunt.dateRetourEffective|date('d/m/Y') }} ✅
+                {% else %}
+                    — <strong>en cours</strong> (retour prévu : {{ emprunt.dateRetourPrevue|date('d/m/Y') }}) ⏳
+                {% endif %}
+            </li>
+        {% else %}
+            <li>Aucun emprunt pour cet adhérent.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

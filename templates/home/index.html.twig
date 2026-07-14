@@ -46,7 +46,7 @@
     {% for emprunt in empruntsEnCours %}
         <li>
             <strong>{{ emprunt.livre.titre }}</strong>
-            emprunté par {{ emprunt.adherent.prenom }} {{ emprunt.adherent.nom }}
+           emprunté par <a href="{{ path('app_adherent_historique', {'id': emprunt.adherent.id}) }}">{{ emprunt.adherent.prenom }} {{ emprunt.adherent.nom }}</a>
             le {{ emprunt.dateEmprunt|date('d/m/Y') }}
             (retour prévu : {{ emprunt.dateRetourPrevue|date('d/m/Y') }})
 

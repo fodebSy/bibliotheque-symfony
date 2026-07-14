@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Emprunt;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use App\Entity\Adherent;
 /**
  * @extends ServiceEntityRepository<Emprunt>
  */
@@ -40,4 +40,17 @@ class EmpruntRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+ * @return Emprunt[] Historique complet d'un adhérent, du plus récent au plus ancien
+ */
+public function findHistoriqueAdherent(Adherent $adherent): array
+{
+    return $this->createQueryBuilder('e')
+        ->where('e.adherent = :adherent')
+        ->setParameter('adherent', $adherent)
+        ->orderBy('e.dateEmprunt', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
 }

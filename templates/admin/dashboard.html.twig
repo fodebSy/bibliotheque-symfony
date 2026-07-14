@@ -5,5 +5,33 @@
 {% block body %}
     <h1>🛠️ Dashboard administrateur</h1>
     <p>Connecté en tant que {{ app.user.userIdentifier }}</p>
-    <p><a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; text-align: center;">
+            <h2 style="margin: 0;">{{ nbLivres }}</h2>
+            <p style="margin: 5px 0 0;">📚 Livres au catalogue</p>
+        </div>
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; text-align: center;">
+            <h2 style="margin: 0;">{{ nbLivresDisponibles }}</h2>
+            <p style="margin: 5px 0 0;">✅ Disponibles</p>
+        </div>
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; text-align: center;">
+            <h2 style="margin: 0;">{{ nbEmpruntsEnCours }}</h2>
+            <p style="margin: 5px 0 0;">⏳ Emprunts en cours</p>
+        </div>
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; text-align: center;">
+            <h2 style="margin: 0;">{{ nbEmpruntsTotal }}</h2>
+            <p style="margin: 5px 0 0;">📖 Emprunts (total)</p>
+        </div>
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; text-align: center;">
+            <h2 style="margin: 0;">{{ nbAdherents }}</h2>
+            <p style="margin: 5px 0 0;">👥 Adhérents</p>
+        </div>
+    </div>
+
+    <p>
+        <a href="{{ path('app_livre_index') }}">Gérer les livres</a> |
+        <a href="{{ path('app_home') }}">Voir le site</a> |
+        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    </p>
 {% endblock %}
